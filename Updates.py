@@ -14,8 +14,8 @@ def get_next_open_row():
 
 
 def get_next_contact(priority, last_contact):
-    # priortiy one contacts get contact once every month and a half, multiplier of priority val
-    wait_time_weeks = int(priority)*6
+    # priority one contacts get contact once every month and a half, multiplier of priority val
+    wait_time_weeks = priority*6
     print wait_time_weeks
     if priority==3:
         wait_time_weeks-4
@@ -46,8 +46,10 @@ def add_contact(fname,lname,email,priority,last_contact,next_talk_notes):
         EXCEL_WS[g] = next_talk_notes
 
         EXCEL_FILE.save('/home/conor/testexcel.xlsx')
+        return 1
     else:
-        print 'Contact alread exists'
+        print 0
+
 
 def update_contact(fname,lname,attribute, new_val):
     # prompt user to enter the column (A,B,C,D...) that they want to update, and provide a new val. need to provide name
@@ -75,20 +77,8 @@ def find_contact(fname, lname):
 
     return 0
 
+
 # To remove a contact going to need to find it, set it  '' then iterate and copy the cells forward, or copy all to a new
 # sheet. moving all the cells could get a bit difficult so probably best to create new sheet and then rename to original
 def remove_contact(fname,lname):
     row = find_contact(fname,lname)
-
-
-
-prompt= 'Enter fname,lname, email, priority, last contact, next time you talk important points to discuss. Seperate all values with a \\'
-
-values = raw_input(prompt)
-arr_of_vals = values.split('\\')
-
-add_contact(arr_of_vals[0],arr_of_vals[1],arr_of_vals[2],arr_of_vals[3],arr_of_vals[4],arr_of_vals[5])
-
-
-
-
