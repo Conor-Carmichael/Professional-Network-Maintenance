@@ -10,13 +10,13 @@ EXCEL_WS = EXCEL_FILE.get_active_sheet()
 
 
 def get_next_open_row():
-    #returns
     return len(EXCEL_WS['A'])+1
 
 
 def get_next_contact(priority, last_contact):
-    #priortiy one contacts get contact once every month and a half, multiplier of priority val
-    wait_time_weeks = priority*6
+    # priortiy one contacts get contact once every month and a half, multiplier of priority val
+    wait_time_weeks = int(priority)*6
+    print wait_time_weeks
     if priority==3:
         wait_time_weeks-4
     last_contact = datetime.datetime.strptime(last_contact,"%m/%d/%y")
@@ -26,41 +26,68 @@ def get_next_contact(priority, last_contact):
 
 
 def add_contact(fname,lname,email,priority,last_contact,next_talk_notes):
-    #concatenate with current row to create key to write to; get next open row so that we right to the proper row
-    i=get_next_open_row()
-    a = 'A'+str(i)
-    EXCEL_WS[a] = fname
-    b='B'+str(i)
-    EXCEL_WS[b] = lname
-    c='C'+str(i)
-    EXCEL_WS[c] = email
-    d='D'+str(i)
-    EXCEL_WS[d] = priority
-    e='E'+str(i)
-    EXCEL_WS[e] = last_contact
-    f='F'+str(i)
-    EXCEL_WS[f] = get_next_contact(priority,last_contact)
-    g = 'G'+str(i)
-    #any sort of info relevant to the next time we talk
-    EXCEL_WS[g] = next_talk_notes
+    # concatenate with current row to create key to write to; get next open row so that we right to the proper row
+    if find_contact(fname,lname) == 0:
+        i=get_next_open_row()
+        a = 'A'+str(i)
+        EXCEL_WS[a] = fname
+        b='B'+str(i)
+        EXCEL_WS[b] = lname
+        c='C'+str(i)
+        EXCEL_WS[c] = email
+        d='D'+str(i)
+        EXCEL_WS[d] = priority
+        e='E'+str(i)
+        EXCEL_WS[e] = last_contact
+        f='F'+str(i)
+        EXCEL_WS[f] = get_next_contact(priority,last_contact)
+        g = 'G'+str(i)
+        # any sort of info relevant to the next time we talk
+        EXCEL_WS[g] = next_talk_notes
 
-    EXCEL_FILE.save('/home/conor/testexcel.xlsx')
+        EXCEL_FILE.save('/home/conor/testexcel.xlsx')
+    else:
+        print 'Contact alread exists'
 
+def update_contact(fname,lname,attribute, new_val):
+    # prompt user to enter the column (A,B,C,D...) that they want to update, and provide a new val. need to provide name
+    # in order to locate the individual row
+    #returns 1 to indicate success of operation, 0 to indicate failure
 
-def update_contact(contact_,attribute, new_val):
-    #prompt user to enter the column (A,B,C,D...) that they want to update, and provide a new val
+    row = find_contact(fname,lname)
+    if row != 0:
+        row = row.replace('A', attribute)
+        EXCEL_WS[row] = new_val
+        EXCEL_FILE.save('/home/conor/testexcel.xlsx')
+        return 1
+    else:
+        return 0
 
 
 def find_contact(fname, lname):
-    # columns = ['A','B','C','D','E','F','G']
 
     for i in range(1,get_next_open_row()):
-        if EXCEL_WS['A'+str(i)]== fname and EXCEL_WS['B'+str(i)]:
-                return 'A'+str(i)
-            else:
-                continue
+        print str(EXCEL_WS['A'+str(i)].value).lower()
+        if str(EXCEL_WS['A'+str(i)].value).lower() == fname.lower() and str(EXCEL_WS['B'+str(i)].value).lower()==lname.lower():
+            return 'A'+str(i)
+        else:
+            continue
 
-    return 'Contact not found.'
+    return 0
+
+# To remove a contact going to need to find it, set it  '' then iterate and copy the cells forward, or copy all to a new
+# sheet. moving all the cells could get a bit difficult so probably best to create new sheet and then rename to original
+def remove_contact(fname,lname):
+    row = find_contact(fname,lname)
+
+
+
+prompt= 'Enter fname,lname, email, priority, last contact, next time you talk important points to discuss. Seperate all values with a \\'
+
+values = raw_input(prompt)
+arr_of_vals = values.split('\\')
+
+add_contact(arr_of_vals[0],arr_of_vals[1],arr_of_vals[2],arr_of_vals[3],arr_of_vals[4],arr_of_vals[5])
 
 
 
