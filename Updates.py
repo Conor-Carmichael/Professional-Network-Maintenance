@@ -1,7 +1,7 @@
 import openpyxl
 import datetime
 import re
-from settings import *
+
 ######################################################################################################
 #                                                                                                    #
 #           open up the workbook and the worksheet. find the end of the column.                      #
@@ -10,13 +10,8 @@ from settings import *
 
 
 
-# def set_file_to_rw(file):
-#     EXCEL_FILE = openpyxl.load_workbook(file)
-#     EXCEL_WS = EXCEL_FILE.get_active_sheet()
-
-
-def get_next_open_row():
-    return len(EXCEL_WS['A'])+1
+def get_next_open_row(user):
+    return len(user.EXCEL_WS['A'])+1
 
 
 def get_next_contact(priority, last_contact):
@@ -30,33 +25,33 @@ def get_next_contact(priority, last_contact):
     return next_contact
 
 
-def add_contact(fname,lname,email,priority,last_contact,next_talk_notes):
+def add_contact(user,fname,lname,email,priority,last_contact,next_talk_notes):
     # concatenate with current row to create key to write to; get next open row so that we right to the proper row
     if find_contact(fname,lname) == 0:
         i=get_next_open_row()
         a = 'A'+str(i)
-        EXCEL_WS[a] = fname
+        user.EXCEL_WS[a] = fname
         b='B'+str(i)
-        EXCEL_WS[b] = lname
+        user.EXCEL_WS[b] = lname
         c='C'+str(i)
-        EXCEL_WS[c] = email
+        user.EXCEL_WS[c] = email
         d='D'+str(i)
-        EXCEL_WS[d] = priority
+        user.EXCEL_WS[d] = priority
         e='E'+str(i)
-        EXCEL_WS[e] = last_contact
+        user.EXCEL_WS[e] = last_contact
         f='F'+str(i)
-        EXCEL_WS[f] = get_next_contact(priority,last_contact)
+        user.EXCEL_WS[f] = get_next_contact(priority,last_contact)
         g = 'G'+str(i)
         # any sort of info relevant to the next time we talk
-        EXCEL_WS[g] = next_talk_notes
+        user.EXCEL_WS[g] = next_talk_notes
 
-        EXCEL_FILE.save('testexcel.xlsx')
+        user.EXCEL_FILE.save('testexcel.xlsx')
         return 1
     else:
         print 0
 
 
-def update_contact(fname,lname,attribute, new_val):
+def update_contact(user,fname,lname,attribute, new_val):
     # prompt user to enter the column (A,B,C,D...) that they want to update, and provide a new val. need to provide name
     # in order to locate the individual row
     #returns 1 to indicate success of operation, 0 to indicate failure
@@ -64,29 +59,29 @@ def update_contact(fname,lname,attribute, new_val):
     row = find_contact(fname,lname)
     if row != 0:
         pattern = re.compile("\d{2}/\d{2}/\d{2}")
-        if (row == 'E' or row == 'F'):
+        if row == 'E' or row == 'F':
             if pattern.findall(new_val) != []:
                 row = row.replace('A', attribute)
-                EXCEL_WS[row] = new_val
-                EXCEL_FILE.save('testexcel.xlsx')
+                user.EXCEL_WS[row] = new_val
+                user.EXCEL_FILE.save('testexcel.xlsx')
                 return 1
             else:
                 return 0
         else:
             row = row.replace('A', attribute)
-            EXCEL_WS[row] = new_val
-            EXCEL_FILE.save('testexcel.xlsx')
+            user.EXCEL_WS[row] = new_val
+            user.EXCEL_FILE.save('testexcel.xlsx')
             return 1
 
     else:
         return 0
 
 
-def find_contact(fname, lname):
+def find_contact(user,fname, lname):
 
     for i in range(1,get_next_open_row()):
-        print str(EXCEL_WS['A'+str(i)].value).lower()
-        if str(EXCEL_WS['A'+str(i)].value).lower() == fname.lower() and str(EXCEL_WS['B'+str(i)].value).lower()==lname.lower():
+        print str(user.EXCEL_WS['A'+str(i)].value).lower()
+        if str(user.EXCEL_WS['A'+str(i)].value).lower() == fname.lower() and str(EXCEL_WS['B'+str(i)].value).lower()==lname.lower():
             return 'A'+str(i)
         else:
             continue

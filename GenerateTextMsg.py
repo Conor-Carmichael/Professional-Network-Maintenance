@@ -1,0 +1,1 @@
+# TODO set up text sending based off boolean initialization from main input in initialization

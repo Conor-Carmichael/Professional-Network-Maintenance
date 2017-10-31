@@ -5,7 +5,6 @@ from email.header    import Header
 
 
 def create_base_email(fname, lname, email, notes):
-
     body1 = 'I hope all is well since we last spoke.\n\n'
     body2 = 'I just wanted to catch up quickly and see how everything is going. My notes indicate \n{0}'.format(notes)
     sign_off = '''Sincerely,
@@ -27,11 +26,12 @@ def is_today(next_contact):
     return today == next_contact
 
 
-def send_update(send_to_email):
+def send_update(send_to_email, contact_arr, password):
     user = 'social_netw_update_noreply@yahoo.com'
-    pw = 'prof_netw_up_cc**'
+    pw = password
+    #TODO change to set_smtp)host(email)
     smtp_host = 'smtp.mail.yahoo.com'
-#, contact_email,fname, lname, notes
+    # TODO add back to method signature -> contact_email,fname, lname, notes
     # body = create_base_email(fname, lname, contact_email, notes)
     body = 'this is a test.'
     msg = MIMEText(body, 'plain', 'utf-8')
@@ -52,3 +52,6 @@ def send_update(send_to_email):
         s.close()
 
 
+def set_smtp_host(email):
+    # TODO write fucntion that parses email address and sets the smtp host to the appropriate domain
+    return
