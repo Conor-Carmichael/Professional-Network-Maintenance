@@ -1,4 +1,5 @@
-import openpyxl,datetime
+import openpyxl
+import datetime
 
 ######################################################################################################
 #                                                                                                    #
@@ -9,6 +10,11 @@ EXCEL_FILE = openpyxl.load_workbook('/home/conor/testexcel.xlsx')
 EXCEL_WS = EXCEL_FILE.get_active_sheet()
 
 
+def set_file_to_rw(file):
+    EXCEL_FILE = openpyxl.load_workbook(file)
+    EXCEL_WS = EXCEL_FILE.get_active_sheet()
+
+
 def get_next_open_row():
     return len(EXCEL_WS['A'])+1
 
@@ -16,8 +22,7 @@ def get_next_open_row():
 def get_next_contact(priority, last_contact):
     # priority one contacts get contact once every month and a half, multiplier of priority val
     wait_time_weeks = priority*6
-    print wait_time_weeks
-    if priority==3:
+    if priority == 3:
         wait_time_weeks-4
     last_contact = datetime.datetime.strptime(last_contact,"%m/%d/%y")
     next_contact = last_contact + datetime.timedelta(weeks = wait_time_weeks)

@@ -1,4 +1,5 @@
 from Updates import *
+from GenerateMsg import *
 import sys
 
 
@@ -23,9 +24,9 @@ def initialize():
 
 
 def main():
-    # EXCEL_FILE = openpyxl.load_workbook(str(sys.argv[1]))
-    # EXCEL_WS = EXCEL_FILE.get_active_sheet()
-    initialize()
+
+    # initialize()
+    send_update('ccarmichael@umass.edu')
     return 0
 
 
