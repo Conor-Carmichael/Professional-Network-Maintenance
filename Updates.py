@@ -6,7 +6,7 @@ import datetime
 #           open up the workbook and the worksheet. find the end of the column.                      #
 #                                                                                                    #
 ######################################################################################################
-EXCEL_FILE = openpyxl.load_workbook('/home/conor/testexcel.xlsx')
+EXCEL_FILE = openpyxl.load_workbook('testexcel.xlsx')
 EXCEL_WS = EXCEL_FILE.get_active_sheet()
 
 

@@ -4,7 +4,6 @@ from email.mime.text import MIMEText
 from email.header    import Header
 
 
-
 def create_base_email(fname, lname, email, notes):
 
     body1 = 'I hope all is well since we last spoke.\n\n'
@@ -20,7 +19,7 @@ def create_base_email(fname, lname, email, notes):
 def is_within_week(next_contact):
     next_contact = datetime.datetime.strptime(next_contact,'%m/%d/%y')
     today = datetime.datetime.now()
-    return today < next_contact < today + datetime.timedelta(today, weeks =1)
+    return today < next_contact < today + datetime.timedelta(today, weeks=1)
 
 
 def is_today(next_contact):
