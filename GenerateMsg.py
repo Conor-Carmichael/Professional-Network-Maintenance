@@ -33,19 +33,22 @@ def send_update(send_to_email):
     smtp_host = 'smtp.mail.yahoo.com'
 #, contact_email,fname, lname, notes
     # body = create_base_email(fname, lname, contact_email, notes)
-    body = 'this is a test'
+    body = 'this is a test.'
     msg = MIMEText(body, 'plain', 'utf-8')
     msg['Subject'] = Header('subject…', 'utf-8')
     msg['From'] = user
     msg['To'] = send_to_email
 
     s = smtplib.SMTP(smtp_host, 587, timeout=10)
-    s.set_debuglevel(1)
+    # s.set_debuglevel(1)
     try:
+        s.ehlo()
         s.starttls()
+        s.ehlo()
         s.login(user, pw)
-        s.sendmail(msg['From'], send_to_email, msg.as_string())
+        s.sendmail(msg['From'], [send_to_email], msg.as_string())
+
     finally:
-        s.quit()
+        s.close()
 
 

@@ -1,18 +1,18 @@
 import openpyxl
 import datetime
-
+import re
+from settings import *
 ######################################################################################################
 #                                                                                                    #
 #           open up the workbook and the worksheet. find the end of the column.                      #
 #                                                                                                    #
 ######################################################################################################
-EXCEL_FILE = openpyxl.load_workbook('testexcel.xlsx')
-EXCEL_WS = EXCEL_FILE.get_active_sheet()
 
 
-def set_file_to_rw(file):
-    EXCEL_FILE = openpyxl.load_workbook(file)
-    EXCEL_WS = EXCEL_FILE.get_active_sheet()
+
+# def set_file_to_rw(file):
+#     EXCEL_FILE = openpyxl.load_workbook(file)
+#     EXCEL_WS = EXCEL_FILE.get_active_sheet()
 
 
 def get_next_open_row():
@@ -50,7 +50,7 @@ def add_contact(fname,lname,email,priority,last_contact,next_talk_notes):
         # any sort of info relevant to the next time we talk
         EXCEL_WS[g] = next_talk_notes
 
-        EXCEL_FILE.save('/home/conor/testexcel.xlsx')
+        EXCEL_FILE.save('testexcel.xlsx')
         return 1
     else:
         print 0
@@ -63,10 +63,21 @@ def update_contact(fname,lname,attribute, new_val):
 
     row = find_contact(fname,lname)
     if row != 0:
-        row = row.replace('A', attribute)
-        EXCEL_WS[row] = new_val
-        EXCEL_FILE.save('/home/conor/testexcel.xlsx')
-        return 1
+        pattern = re.compile("\d{2}/\d{2}/\d{2}")
+        if (row == 'E' or row == 'F'):
+            if pattern.findall(new_val) != []:
+                row = row.replace('A', attribute)
+                EXCEL_WS[row] = new_val
+                EXCEL_FILE.save('testexcel.xlsx')
+                return 1
+            else:
+                return 0
+        else:
+            row = row.replace('A', attribute)
+            EXCEL_WS[row] = new_val
+            EXCEL_FILE.save('testexcel.xlsx')
+            return 1
+
     else:
         return 0
 
