@@ -28,8 +28,6 @@ def is_today(next_contact):
     return today == next_contact
 
 
-
-
 def send_update(send_to_email):
     user = 'social_netw_update_noreply@yahoo.com'
     pw = 'prof_netw_up_cc**'
@@ -44,7 +42,6 @@ def send_update(send_to_email):
 
     s = smtplib.SMTP(smtp_host, 587, timeout=10)
     s.set_debuglevel(1)
-
     try:
         s.starttls()
         s.login(user, pw)
