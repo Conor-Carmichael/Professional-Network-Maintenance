@@ -1,4 +1,4 @@
-# Professional-Network-Maintenance
+# # Professional-Network-Maintenance
 
 # Main Idea:
 
@@ -17,4 +17,16 @@ Since most of the time this project is meant to run in the background (after ini
 
 # How to Use This Project yourself:
 
-Download the code, store it in a place of your choice. Run the code for initializing with 'python Driver.py'. Enter 1 to go through initialization. Data will be store withing a directory data/ that will be made within the directory you place the rest of the code in.
+Download the code, store it in a place of your choice. Run the code for initializing with 'python Driver.py'. Enter 1 to go through initialization. Data will be store withing a directory data/ that will be made within the directory you place the rest of the code in. After setting everyting up, you can move to scheduling the emailing and (soon) texting.
+
+How To Schedule:
+For ubuntu (how I wrote it to work)- you can schedule it with cron, to run at a certain time each day. 
+Step by step instructions:
+1) open a terminal
+2) 'crontab -e' this opens the crontab editing screen (crontab is a list of cronjobs, which are tasks scheduled to be run)
+3) (Good reference to understand format of scheduling: http://www.adminschoice.com/crontab-quick-reference)
+at the top of the window type->
+'0 8 * * * cd path/to/where/scripts-are-downloaded && usr/bin/python /path/to-scripts/ScheduledTasks.py'
+This will run the script at 8 am everyday. 'cd' to the files because the files are dependent on the relative paths of the files.
+
+Windows instructions coming soon.
