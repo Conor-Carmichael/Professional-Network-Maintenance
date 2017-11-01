@@ -10,7 +10,9 @@ class User:
         self.EXCEL_WS = None
 
     def store_info(self):
-        f = open('data/userinfo', 'w')
+        import os
+        path = os.getcwd()
+        f = open(path+'/data/userinfo', 'w')
         to_store = [self.user_fname.title(), self.user_lname.title(), self.email, self.cell, self.file_path]
         f.write(','.join(to_store))
         print 'User info successfully written to file.'
@@ -19,7 +21,9 @@ class User:
     def retrieve_info(self):
         import csv
         import openpyxl
-        with open('data/userinfo', 'r') as f:
+        import os
+        path = os.getcwd()
+        with open(path+'/data/userinfo', 'r') as f:
             r = csv.reader(f)
             data = next(r)
             self.user_fname = data[0]
@@ -32,8 +36,9 @@ class User:
 
     def create_workbook(self):
         import openpyxl
-
-        self.file_path = 'data/contactinfo.xlsx'
+        import os
+        path = os.getcwd()
+        self.file_path = path+'/data/contactinfo.xlsx'
         self.EXCEL_FILE = openpyxl.Workbook()
         self.EXCEL_WS = self.EXCEL_FILE.get_active_sheet()
 
