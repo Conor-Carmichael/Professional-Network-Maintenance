@@ -1,15 +1,8 @@
-from Updates import *
-from GenerateMsg import *
 from ControlFlow import *
-from settings import init
-import sys
 
-
-
-init()
 
 def main():
-
+    home_screen()
     return 0
 
 

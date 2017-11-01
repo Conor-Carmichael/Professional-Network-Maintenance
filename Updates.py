@@ -27,8 +27,8 @@ def get_next_contact(priority, last_contact):
 
 def add_contact(user,fname,lname,email,priority,last_contact,next_talk_notes):
     # concatenate with current row to create key to write to; get next open row so that we right to the proper row
-    if find_contact(fname,lname) == 0:
-        i=get_next_open_row()
+    if find_contact(user, fname, lname) == 0:
+        i=get_next_open_row(user)
         a = 'A'+str(i)
         user.EXCEL_WS[a] = fname
         b='B'+str(i)
@@ -45,7 +45,7 @@ def add_contact(user,fname,lname,email,priority,last_contact,next_talk_notes):
         # any sort of info relevant to the next time we talk
         user.EXCEL_WS[g] = next_talk_notes
 
-        user.EXCEL_FILE.save('testexcel.xlsx')
+        user.EXCEL_FILE.save(user.file_path)
         return 1
     else:
         print 0
@@ -56,21 +56,21 @@ def update_contact(user,fname,lname,attribute, new_val):
     # in order to locate the individual row
     #returns 1 to indicate success of operation, 0 to indicate failure
 
-    row = find_contact(fname,lname)
+    row = find_contact(user, fname, lname)
     if row != 0:
         pattern = re.compile("\d{2}/\d{2}/\d{2}")
         if row == 'E' or row == 'F':
             if pattern.findall(new_val) != []:
                 row = row.replace('A', attribute)
                 user.EXCEL_WS[row] = new_val
-                user.EXCEL_FILE.save('testexcel.xlsx')
+                user.EXCEL_FILE.save(user.file_path)
                 return 1
             else:
                 return 0
         else:
             row = row.replace('A', attribute)
             user.EXCEL_WS[row] = new_val
-            user.EXCEL_FILE.save('testexcel.xlsx')
+            user.EXCEL_FILE.save(user.file_path)
             return 1
 
     else:
@@ -79,9 +79,9 @@ def update_contact(user,fname,lname,attribute, new_val):
 
 def find_contact(user,fname, lname):
 
-    for i in range(1,get_next_open_row()):
+    for i in range(1,get_next_open_row(user)):
         print str(user.EXCEL_WS['A'+str(i)].value).lower()
-        if str(user.EXCEL_WS['A'+str(i)].value).lower() == fname.lower() and str(EXCEL_WS['B'+str(i)].value).lower()==lname.lower():
+        if str(user.EXCEL_WS['A'+str(i)].value).lower() == fname.lower() and str(user.EXCEL_WS['B'+str(i)].value).lower()== lname.lower():
             return 'A'+str(i)
         else:
             continue
@@ -91,5 +91,5 @@ def find_contact(user,fname, lname):
 
 # To remove a contact going to need to find it, set it  '' then iterate and copy the cells forward, or copy all to a new
 # sheet. moving all the cells could get a bit difficult so probably best to create new sheet and then rename to original
-def remove_contact(fname,lname):
-    row = find_contact(fname,lname)
+# def remove_contact(fname,lname):
+#     row = find_contact(fname,lname)

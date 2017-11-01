@@ -32,10 +32,16 @@ class User:
 
     def create_workbook(self):
         import openpyxl
-        file = open('data/contact_spreadsheet.xlsx','w')
-        self.file_path = file
-        self.EXCEL_FILE = openpyxl.load_workbook(self.file_path)
-        self.EXCEL_WS = self.EXCEL_FILE.get_active_sheet()
-        self.EXCEL_WS['A1'], self.EXCEL_WS['B1'], self.EXCEL_WS['C1'], self.EXCEL_WS['D1'], self.EXCEL_WS['E1'], \
-        self.EXCEL_WS['F1'], self.EXCEL_WS['G1'] \
-            = 'First Name', 'Last Name', 'Email', 'Priority', 'Last Contact','Next Contact', 'Notes for Next Contact'
+
+        self.file_path = 'data/contactinfo.xlsx'
+        self.EXCEL_FILE = openpyxl.Workbook()
+        self.EXCEL_WS = self.EXCEL_FILE.create_sheet()
+
+        self.EXCEL_WS['A1'] = 'First Name'
+        self.EXCEL_WS['B1'] = 'Last Name'
+        self.EXCEL_WS['C1'] = 'Email'
+        self.EXCEL_WS['D1'] = 'Priority'
+        self.EXCEL_WS['E1'] = 'Last Contact'
+        self.EXCEL_WS['F1'] = 'Next Contact'
+        self.EXCEL_WS['G1'] = 'Notes for Next Contact'
+        self.EXCEL_FILE.save(self.file_path)

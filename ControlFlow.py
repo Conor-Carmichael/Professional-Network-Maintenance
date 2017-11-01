@@ -28,7 +28,7 @@ def update(user):
     attr = raw_input('Enter the letter of corresponding column to update:\nemail (C), Priority (D), Last Contact (E), Next Contact (F), Notes (G)\n')
     val = raw_input('Enter new value for corresponding cell: ')
 
-    if update_contact(fname, lname, attr.upper(), val):
+    if update_contact(user, fname, lname, attr.upper(), val):
         print 'Contact update successful'
     else:
         print 'Contact update failed, check spelling of name or column entered.'
@@ -44,22 +44,29 @@ def first_time_setup(user):
     print 'Now we can intialize the contacts in your workbook, if the file is not empty (but formatted properly) contacts will be added on.\n'
     initialize(user)
     set_email_pref(user)
-    set_text_pref()
+    set_text_pref(user)
     print 'You will be notified accordingly when you should reach out to a contact!'
+    user.store_info()
+    user.EXCEL_FILE.save(user.file_path)
 
 
 def home_screen():
-    response = raw_input('Welcome, to begin first time setup press 1, to update a contacts information press 2.\n')
-    if response == 1:
-        user = User()
-        first_time_setup(user)
-    elif response == 2:
-        user = User()
-        user.retrieve_info()
-        update(user)
-    else:
-        home_screen()
-
+    try:
+        response = raw_input('Welcome, to begin first time setup press 1, to update a contacts information press 2.\n')
+        if int(response )== 1:
+            user = User()
+            first_time_setup(user)
+        elif int(response )== 2:
+            user = User()
+            user.retrieve_info()
+            update(user)
+            user.store_info()
+        else:
+            home_screen()
+    except KeyboardInterrupt as k:
+        user.store_info()
+        user.EXCEL_FILE.save(user.file_path)
+        print k
 
 def set_email_pref(user):
     username = raw_input('Enter the email address where you would like to receive notification: ')
@@ -79,12 +86,11 @@ def set_text_pref(user):
         user.cell = phone
         print 'Cell phone intialization complete'
     else:
-        if user.email == None:
+        if user.email is None:
             selection = raw_input('You have previously opted to not use email notifications, ' \
                   'would you prefer to use email or phone? ("email" or "phone:): ')
             if selection.lower() == 'email':
                 set_email_pref()
             else:
                 set_text_pref()
-
     return
