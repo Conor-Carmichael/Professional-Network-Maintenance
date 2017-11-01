@@ -11,7 +11,7 @@ import re
 
 
 def get_next_open_row(user):
-    return len(user.EXCEL_WS['A'])+1
+    return user.EXCEL_WS.max_row+1
 
 
 def get_next_contact(priority, last_contact):
@@ -26,13 +26,13 @@ def get_next_contact(priority, last_contact):
 
 
 def add_contact(user,fname,lname,email,priority,last_contact,next_talk_notes):
-    # concatenate with current row to create key to write to; get next open row so that we right to the proper row
+    # concatenate with current row to create key to write to; get next open row so that we write to the proper row
     if find_contact(user, fname, lname) == 0:
         i=get_next_open_row(user)
         a = 'A'+str(i)
-        user.EXCEL_WS[a] = fname
+        user.EXCEL_WS[a] = fname.title()
         b='B'+str(i)
-        user.EXCEL_WS[b] = lname
+        user.EXCEL_WS[b] = lname.title()
         c='C'+str(i)
         user.EXCEL_WS[c] = email
         d='D'+str(i)
@@ -77,14 +77,11 @@ def update_contact(user,fname,lname,attribute, new_val):
         return 0
 
 
-def find_contact(user,fname, lname):
+def find_contact(user, fname, lname):
+    for i in range(2, get_next_open_row(user)):
 
-    for i in range(1,get_next_open_row(user)):
-        print str(user.EXCEL_WS['A'+str(i)].value).lower()
         if str(user.EXCEL_WS['A'+str(i)].value).lower() == fname.lower() and str(user.EXCEL_WS['B'+str(i)].value).lower()== lname.lower():
             return 'A'+str(i)
-        else:
-            continue
 
     return 0
 

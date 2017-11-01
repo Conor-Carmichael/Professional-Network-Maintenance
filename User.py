@@ -11,14 +11,14 @@ class User:
 
     def store_info(self):
         f = open('data/userinfo','w')
-        to_store = [self.user_fname, self.user_lname, self.email, self.cell, self.file_path]
+        to_store = [self.user_fname.title(), self.user_lname.title(), self.email, self.cell, self.file_path]
         f.write(','.join(to_store))
         print 'User info successfully written to file.'
         f.close()
 
     def retrieve_info(self):
-        # TODO will need to read in the file path to the excel and reopen up the workbook and worksheet, cant store that
-        import csv,openpyxl
+        import csv
+        import openpyxl
         with open('data/userinfo','r') as f:
             r = csv.reader(f)
             data = next(r)
@@ -35,7 +35,7 @@ class User:
 
         self.file_path = 'data/contactinfo.xlsx'
         self.EXCEL_FILE = openpyxl.Workbook()
-        self.EXCEL_WS = self.EXCEL_FILE.create_sheet()
+        self.EXCEL_WS = self.EXCEL_FILE.get_active_sheet()
 
         self.EXCEL_WS['A1'] = 'First Name'
         self.EXCEL_WS['B1'] = 'Last Name'

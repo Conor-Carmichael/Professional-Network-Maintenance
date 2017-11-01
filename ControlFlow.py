@@ -12,9 +12,9 @@ def initialize(user):
         notes = raw_input('\nEnter note to remind you of things to talk about next time you talk: ')
 
         if add_contact(user, fname, lname, email, priority, last_contact, notes):
-            print '\n\n {0} {1} was added successfully to your contact list!'.format(fname, lname)
+            print '\n\n{0} {1} was added successfully to your contact list!'.format(fname, lname)
         else:
-            print '\n\n {0} {1} already exists in your contact list!'.format(fname, lname)
+            print '\n\n{0} {1} already exists in your contact list!'.format(fname, lname)
 
         yn = raw_input('Add more contacts?(y or n)?: ')
         if yn == 'n':
@@ -52,7 +52,7 @@ def first_time_setup(user):
 
 def home_screen():
     try:
-        response = raw_input('Welcome, to begin first time setup press 1, to update a contacts information press 2.\n')
+        response = raw_input('Welcome, to begin first time setup press 1, to update a contacts information press 2, to add contacts, press 3.\n')
         if int(response )== 1:
             user = User()
             first_time_setup(user)
@@ -61,6 +61,10 @@ def home_screen():
             user.retrieve_info()
             update(user)
             user.store_info()
+        elif int(response) ==3:
+            user = User()
+            user.retrieve_info()
+            initialize(user)
         else:
             home_screen()
     except KeyboardInterrupt as k:
