@@ -10,7 +10,7 @@ class User:
         self.EXCEL_WS = None
 
     def store_info(self):
-        f = open('data/userinfo','w')
+        f = open('data/userinfo', 'w')
         to_store = [self.user_fname.title(), self.user_lname.title(), self.email, self.cell, self.file_path]
         f.write(','.join(to_store))
         print 'User info successfully written to file.'
@@ -19,7 +19,7 @@ class User:
     def retrieve_info(self):
         import csv
         import openpyxl
-        with open('data/userinfo','r') as f:
+        with open('data/userinfo', 'r') as f:
             r = csv.reader(f)
             data = next(r)
             self.user_fname = data[0]
@@ -45,3 +45,20 @@ class User:
         self.EXCEL_WS['F1'] = 'Next Contact'
         self.EXCEL_WS['G1'] = 'Notes for Next Contact'
         self.EXCEL_FILE.save(self.file_path)
+
+    def retrieve_objects_from_csv(self):
+        from Contact import Contact
+
+        contacts = []
+        for i in range(2, self.EXCEL_WS.max_row+1):
+            c = Contact()
+            c.fname = self.EXCEL_WS['A'+str(i)].value
+            c.lname = self.EXCEL_WS['B'+str(i)].value
+            c.email = self.EXCEL_WS['C'+str(i)].value
+            c.priority = self.EXCEL_WS['D'+str(i)].value
+            c.last_contact = self.EXCEL_WS['E'+str(i)].value
+            c.next_contact = self.EXCEL_WS['F'+str(i)].value
+            c.notes = self.EXCEL_WS['G'+str(i)].value
+            contacts.append(c)
+
+        return contacts

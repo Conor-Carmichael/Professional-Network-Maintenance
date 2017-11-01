@@ -86,6 +86,12 @@ def find_contact(user, fname, lname):
     return 0
 
 
+def return_next_dates(user):
+    ret_list = []
+    for i in range(2, get_next_open_row(user)):
+        ret_list.append(user.EXCEL_WS['F'+str(i)])
+    return ret_list
+
 # To remove a contact going to need to find it, set it  '' then iterate and copy the cells forward, or copy all to a new
 # sheet. moving all the cells could get a bit difficult so probably best to create new sheet and then rename to original
 # def remove_contact(fname,lname):
