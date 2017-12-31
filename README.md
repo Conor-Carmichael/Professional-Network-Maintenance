@@ -17,4 +17,10 @@ Since most of the time this project is meant to run in the background (after ini
 
 # How to Use This Project yourself:
 
-Download the code, store it in a place of your choice. Run the code for initializing with 'python Driver.py'. Enter 1 to go through initialization. Data will be store withing a directory data/ that will be made within the directory you place the rest of the code in.
+Download the code, store it in a place of your choice. Run the code for initializing with 'python Driver.py'. Enter 1 to go through initialization. Data will be store withing a directory data/ that will be made within the directory you place the rest of the code in. After setting everyting up, you can move to scheduling the emailing and (soon) texting.
+
+How To Schedule:
+For ubuntu (how I wrote it to work)- you can schedule it with anacron, to run it each day. Find the anacron file and open it with a text editor (path is probably /etc/anacron). Then add a line '1 some_delay_value job_idenifier cd path/to/folder && /usr/bin/python /path to folder/ScheduledTasks.py'. This will run the script to send alerts once a day, changing one to makes it run once a week.
+
+
+Windows instructions coming soon.
