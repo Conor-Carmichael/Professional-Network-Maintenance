@@ -6,7 +6,7 @@ The idea behind the project, is that as one works in more and more places, their
 
 # Implementation:
 
-The script brings the user through a series of initialization steps at first collecting information on the user and the contacts of which they would like to be reminded about. It stores this data in a folder called data/ which contains an excel spreadsheet of contact information, and a text file which allows for storage and retrieval of personal infomation. 
+The script brings the user through a series of initialization steps at first collecting information on the user and the contacts of which they would like to be reminded about. It stores this data in the folder called "data/" which contains an excel spreadsheet of contact information, and a text file which allows for storage and retrieval of personal infomation. 
 
 # Ideas to Further the Project:
 
